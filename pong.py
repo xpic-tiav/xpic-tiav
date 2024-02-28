@@ -36,8 +36,8 @@ ball.shape("circle")
 ball.color("white")
 ball.penup()
 ball.goto(0, 0)
-ball.dx = 0.4
-ball.dy = -0.4
+ball.dx = 0
+ball.dy = -0
 
 # pen
 pen = turtle.Turtle()
@@ -47,6 +47,15 @@ pen.penup()
 pen.hideturtle()
 pen.goto(0, 260)
 pen.write("Player 1: 0  Player 2: 0", align="center", font=("Courier", 24, "normal"))
+
+start_game = turtle.Turtle()
+start_game.speed(0)
+start_game.color("white")
+start_game.penup()
+start_game.hideturtle()
+start_game.goto(0, -260)
+start_game.write("Press X to start!", align="center", font=("Courier", 24, "normal"))
+
 
 #funcions
 def paddle_a_up():
@@ -69,12 +78,24 @@ def paddle_b_down():
     y -= 20
     paddle_b.sety(y)
 
+def start():
+    ball.dy -= 0.4
+    ball.dx += 0.4
+    start_game.clear()
+
+def game_over():
+    pen.clear()
+    paddle_a.clear()
+    paddle_b.clear()
+    ball.clear()
+
 #keyboard biding
 window.listen()
 window.onkeypress(paddle_a_up, "w")
 window.onkeypress(paddle_a_down, "s")
 window.onkeypress(paddle_b_up, "Up")
 window.onkeypress(paddle_b_down, "Down")
+window.onkeypress(start, "x")
 
 #main game loop
 while True:
@@ -115,3 +136,25 @@ while True:
     if (ball.xcor() < -340 and ball.xcor() > -350) and (ball.ycor() < paddle_a.ycor() + 50 and ball.ycor() > paddle_a.ycor() - 40):
         ball.setx(-340)
         ball.dx *= -1
+
+    #game over
+
+    if score_1 == 5:
+        game_over()
+        gameover1 = turtle.Turtle()
+        gameover1.speed(0)
+        gameover1.color("white")
+        gameover1.penup()
+        gameover1.hideturtle()
+        gameover1.goto(0, 0)
+        gameover1.write("Game Over! Player 1 won!", align="center", font=("Courier", 24, "bold"))
+
+    if score_2 == 5:
+        game_over()
+        gameover2 = turtle.Turtle()
+        gameover2.speed(0)
+        gameover2.color("white")
+        gameover2.penup()
+        gameover2.hideturtle()
+        gameover2.goto(0, 0)
+        gameover2.write("Game Over! Player 2 won!", align="center", font=("Courier", 24, "bold"))
